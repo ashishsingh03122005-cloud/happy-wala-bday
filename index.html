@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Love Quest: 6 Levels of Us ❤️</title>
+    <style>
+        body { 
+            background: radial-gradient(circle, #1a1a1a, #000); 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden; 
+            color: white; 
+        }
+        
+        #game-container { text-align: center; z-index: 10; width: 90%; max-width: 450px; }
+
+        .level-badge {
+            background: #ff4d6d;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            box-shadow: 0 0 15px #ff4d6d;
+            text-transform: uppercase;
+        }
+
+        .profile-pic { 
+            width: 180px; height: 180px; 
+            border-radius: 20px; /* Thoda rectangular curves ke liye */
+            border: 3px solid #ff4d6d; 
+            object-fit: cover; 
+            box-shadow: 0 0 25px rgba(255, 77, 109, 0.5);
+            transition: 0.5s ease;
+            margin-bottom: 20px;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .game-btn {
+            background: linear-gradient(45deg, #ff4d6d, #ff8fa3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .game-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6); }
+
+        .confetti { position: fixed; z-index: 1; animation: fall 3s linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="level" class="level-badge">QUEST START 🚀</div>
+        <div>
+            <img src="vidhi.jpg" id="mainPhoto" class="profile-pic">
+        </div>
+        
+        <div class="message-card" id="msg">
+            Are you ready to unlock our special memories? Level 6 is a surprise! 🎁
+        </div>
+        
+        <button class="game-btn" onclick="playGame()" id="gameBtn">Start Game</button>
+    </div>
+
+    <script>
+        let step = 0;
+        const quests = [
+            { level: "Level 1: Meeting You", text: "It's been one amazing year since we first met, and you have changed my life for the better. ✨", photo: "vidhi.jpg" },
+            { level: "Level 2: The Apology", text: "I'm sorry for never officially proposing. I never wanted you to feel any pressure. 🙏", photo: "IMG.jpg" },
+            { level: "Level 3: My Promise", text: "My love for you is a commitment to myself. Even if you ever leave, I will still love you. ❤️", photo: "haha.jpg" },
+            { level: "Level 4: True Support", text: "I don't just want your smiles. I deserve to be there for your sad days too. 🛡️", photo: "huhu.jpg" },
+            { level: "Level 5: No Secrets", text: "If I ever irritate you, please just scold me! But never hide your pain from me. 🌨️", photo: "hihi.jpg" },
+            { level: "Level 6: Forever", text: "I love you more than words can express, sweetheart. You are my everything. 😘", photo: "chuu.jpg" }
+        ];
+
+        function playGame() {
+            const levelLabel = document.getElementById("level");
+            const msgBox = document.getElementById("msg");
+            const photo = document.getElementById("mainPhoto");
+            const btn = document.getElementById("gameBtn");
+
+            createConfetti();
+
+            if (step < quests.length) {
+                levelLabel.innerHTML = quests[step].level;
+                msgBox.style.opacity = 0;
+                photo.style.opacity = 0;
+
+                setTimeout(() => {
+                    msgBox.innerHTML = quests[step].text;
+                    photo.src = quests[step].photo;
+                    msgBox.style.opacity = 1;
+                    photo.style.opacity = 1;
+                    btn.innerHTML = "Unlock Level " + (step + 2) + " 🔓";
+                    if(step == quests.length - 1) btn.innerHTML = "Final Surprise 🎁";
+                    step++;
+                }, 300);
+            } else {
+                levelLabel.innerHTML = "🏆 MISSION COMPLETE";
+                levelLabel.style.background = "#ffd700";
+                msgBox.innerHTML = "<div style='font-size: 1.5rem;'>HAPPY BIRTHDAY!<br><b>I LOVE YOU FOREVER! ❤️</b></div>";
+                btn.style.display = "none";
+                photo.src = "vidhi.jpg"; 
+                setInterval(createConfetti, 150);
+            }
+        }
+
+        function createConfetti() {
+            for(let i=0; i<10; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.innerHTML = ['❤️', '✨', '🎈', '🌸', '⭐'][Math.floor(Math.random()*5)];
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.top = '-5vh';
+                c.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
